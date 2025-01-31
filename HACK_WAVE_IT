@@ -1,0 +1,85 @@
+1.GRID IMPLEMENTATION
+import math
+
+def create_grid():
+    return [[0 for _ in range(10)] for _ in range(10)]
+
+def print_grid(grid):
+    for row in grid:
+        print(" ".join(str(cell) for cell in row))
+    print()
+
+def draw_square(grid, x, y, size):
+    for i in range(size):
+        for j in range(size):
+            if 0 <= x + i < 10 and 0 <= y + j < 10:
+                grid[x + i][y + j] = 1
+
+def draw_triangle(grid, x, y, size):
+    for i in range(size):
+        for j in range(i + 1):
+            if 0 <= x + i < 10 and 0 <= y + j < 10:
+                grid[x + i][y + j] = 1
+
+def draw_circle(grid, cx, cy, radius):
+    for i in range(10):
+        for j in range(10):
+            # Check if the point (i, j) is within the circle
+            if math.isclose((i - cx) ** 2 + (j - cy) ** 2, radius ** 2, abs_tol=1):
+                grid[i][j] = 1
+
+def main():
+  
+    grid = create_grid()
+    
+    # Get user input for shape type
+    shape_type = input("Enter shape (square, triangle, circle): ").strip().lower()
+    
+    # Get user input for size and position
+    x = int(input("Enter starting x position (0-9): "))
+    y = int(input("Enter starting y position (0-9): "))
+    size = int(input("Enter size of the shape: "))
+    
+   
+    if shape_type == "square":
+        draw_square(grid, x, y, size)
+    elif shape_type == "triangle":
+        draw_triangle(grid, x, y, size)
+    elif shape_type == "circle":
+        radius = size
+        draw_circle(grid, x, y, radius)
+    else:
+        print("Invalid shape type.")
+        return
+    
+    
+    print_grid(grid)
+
+if __name__ == "__main__":
+    main()
+
+
+2.STRING REVERSE
+def replace_vowels(word, replacement='*'):
+    vowels = "aeiouAEIOU"
+    return ''.join([replacement if char in vowels else char for char in word])
+
+def process_string(input_string):
+    words = input_string.split()  # Split the string into words
+    result = []
+    
+    for i, word in enumerate(words):
+        if (i + 1) % 2 == 0:  # Reverse every second word
+            word = word[::-1]
+        
+        # (we treat odd indexed as alternate)
+        if i % 2 == 1:  # Every alternate word (index 1, 3, 5, etc.)
+            word = replace_vowels(word)
+        
+        result.append(word)
+    
+    return ' '.join(result)
+
+input_string = "Hello this is a test string"
+output = process_string(input_string)
+print(output)
